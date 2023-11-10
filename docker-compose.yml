@@ -17,6 +17,7 @@ services:
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            PHP_IDE_CONFIG: "serverName=Docker"
         volumes:
             - '.:/var/www/html'
         networks:
@@ -24,7 +25,6 @@ services:
         depends_on:
             - pgsql
             - redis
-            - mysql
             - minio
     pgsql:
         image: 'postgres:15'
@@ -66,30 +66,6 @@ services:
                 - ping
             retries: 3
             timeout: 5s
-    mysql:
-        image: 'mysql/mysql-server:8.0'
-        ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
-        environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: '%'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
-        volumes:
-            - 'sail-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-        networks:
-            - sail
-        healthcheck:
-            test:
-                - CMD
-                - mysqladmin
-                - ping
-                - '-p${DB_PASSWORD}'
-            retries: 3
-            timeout: 5s
     minio:
         image: 'minio/minio:latest'
         ports:
@@ -118,8 +94,6 @@ volumes:
     sail-pgsql:
         driver: local
     sail-redis:
-        driver: local
-    sail-mysql:
         driver: local
     sail-minio:
         driver: local
