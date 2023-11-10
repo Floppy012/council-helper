@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
+        "brainmaestro/composer-git-hooks": "v3.0.0-alpha.1",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
@@ -33,23 +34,40 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "cghooks add --ignore-lock"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "cghooks update"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "pint:dirty": "pint --dirty",
+        "pint": "vendor/bin/pint",
+        "cghooks": "vendor/bin/cghooks"
     },
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "hooks": {
+            "config": {
+                "stop-on-failure": ["pre-commit"]
+            },
+            "pre-commit": [
+                "dirtyFiles=$(git diff --cached --name-only --diff-filter=ACM)",
+                "vendor/bin/sail composer pint -q $dirtyFiles",
+                "git add $dirtyFiles"
+            ]
         }
     },
     "config": {
