@@ -1,6 +1,7 @@
 <?php
 
-use App\Livewire\Counter;
+use App\Livewire\Landing;
+use App\Livewire\Report;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Counter::class);
+Route::get('/', Landing::class)->name('landing');
+
+Route::get('/report/{report:public_id}', Report::class)->name('report');
