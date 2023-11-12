@@ -38,7 +38,7 @@ trait IsIngestJob
             'report_id' => $this->report->id,
             'type' => $this->type,
             'status' => $success ? IngestJobStatus::SUCCEEDED : IngestJobStatus::FAILED,
-            'errors' => $errors,
+            'errors' => json_encode($errors),
         ], ['report_id', 'type']);
     }
 }

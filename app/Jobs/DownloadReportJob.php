@@ -36,11 +36,10 @@ class DownloadReportJob implements ShouldQueue
             ->throw()
             ->get($this->report->url.'/data.json');
 
-        sleep(5);
-
-        $this->report->update([
-            'raw' => $response->json(),
+        $this->report->rawData()->create([
+            'data' => $response->json(),
         ]);
+
         $this->finish(true);
     }
 

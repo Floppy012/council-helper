@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('public_id')->unique();
             $table->text('url');
-            $table->json('raw')->nullable();
             $table->uuid('batch_id')->nullable();
             $table->timestamps();
         });

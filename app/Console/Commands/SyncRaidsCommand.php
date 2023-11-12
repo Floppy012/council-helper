@@ -18,6 +18,7 @@ class SyncRaidsCommand extends Command
             [
                 'slug' => 'amirdrassil',
                 'name' => 'Amirdrassil',
+                'blizzard_instance_id' => 1207,
             ],
         ], ['slug']);
 

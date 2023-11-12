@@ -4,6 +4,7 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        "./app/Enum/*.php",
     ],
   theme: {
     extend: {
@@ -20,8 +21,6 @@ export default {
                 "800": "#11121b",
                 "900": "#0c0d14"
             }
-
-
         }
     },
   },

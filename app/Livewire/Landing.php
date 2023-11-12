@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Jobs\DownloadReportJob;
 use App\Jobs\FinalizeReportJob;
+use App\Jobs\ValidateReportJob;
 use Bus;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Rule;
@@ -28,6 +29,7 @@ class Landing extends Component
         $batch = Bus::batch([
             [
                 new DownloadReportJob($report),
+                new ValidateReportJob($report),
             ],
         ])
             ->then(fn () => dispatch_sync(new FinalizeReportJob($report, false)))

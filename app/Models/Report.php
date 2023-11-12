@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Report extends Model
 {
     public $casts = [
-        'raw' => 'json',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -20,5 +20,10 @@ class Report extends Model
     public function ingestJobs(): HasMany
     {
         return $this->hasMany(IngestJob::class);
+    }
+
+    public function rawData(): HasOne
+    {
+        return $this->hasOne(ReportRawData::class);
     }
 }
