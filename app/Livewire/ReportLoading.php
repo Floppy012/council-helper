@@ -35,6 +35,7 @@ class ReportLoading extends Component
         $this->jobs = $this->report->ingestJobs->map(fn (IngestJob $job) => [
             'type' => $job->type,
             'status' => $job->status,
+            'errors' => collect($job->errors)->flatten()->all(),
         ])->all();
 
         if (! $this->report->batch_id) {
