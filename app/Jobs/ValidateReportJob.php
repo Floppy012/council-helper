@@ -42,16 +42,18 @@ class ValidateReportJob implements ShouldQueue
             'sim.options.fight_style' => ['required', new EqualsRule('patchwerk')],
             'sim.options.max_time' => ['required', 'numeric', new EqualsRule(360)],
             'sim.options.desired_targets' => ['required', 'numeric', new EqualsRule(1)],
-            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'in:raid-heroic-max-upgraded,raid-mythic-upgraded'],
+            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|heroic|mythic)-upgraded(?:-max)?$/'],
         ], [
             'sim.options.max_time' => ':attribute must be 5 minutes',
             'simbot.meta.rawFormData.droptimizer.instance.in' => ':attribute not supported',
+            'simbot.meta.rawFormData.droptimizer.difficulty.regex' => ':attribute is invalid',
         ], [
             'simbot.simType' => 'Simulation Type',
             'sim.options.fight_style' => 'Fight style',
             'sim.options.max_time' => 'Fight duration',
             'sim.options.desired_targets' => 'Number of bosses',
             'simbot.meta.rawFormData.droptimizer.instance' => 'Raid instance',
+            'simbot.meta.rawFormData.droptimizer.difficulty' => 'Raid difficulty',
         ]);
 
         if ($validator->fails()) {
