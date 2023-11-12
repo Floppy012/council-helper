@@ -14,7 +14,7 @@ $ringColor = $errors->has($name) ? 'border-red-900 focus:border-red-500' : 'bord
 <div class="w-full">
     <input name="{{$name}}" {{ $attributes->merge([
     'class' => "
-        block w-full bg-dark-800 text-gray-300 rounded-md py-2 px-3 border-0 shadow-sm border
+        block w-full bg-dark-800 text-gray-300 rounded-md py-2 px-3 shadow-sm border
         $ringColor placeholder:text-dark-200 border-inset
         focus:outline-none $sizeClasses
     "

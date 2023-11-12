@@ -18,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Landing::class)->name('landing');
 
 Route::get('/report/{report:public_id}', Report::class)->name('report');
+
+Route::get('/raid', \App\Livewire\RaidSelect::class)->name('raid-select');
+
+Route::get('/raid/{raid:slug}', \App\Livewire\EncounterSelect::class)->name('encounter-select');
+
+Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', fn () => 'TODO')->name('encounter');
