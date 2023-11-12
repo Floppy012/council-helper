@@ -28,9 +28,11 @@ class Landing extends Component
         $batch = Bus::batch([
             [
                 new DownloadReportJob($report),
-                new FinalizeReportJob($report),
             ],
-        ])->dispatchAfterResponse();
+        ])
+            ->then(fn () => dispatch_sync(new FinalizeReportJob($report, false)))
+            ->catch(fn () => dispatch_sync(new FinalizeReportJob($report, true)))
+            ->dispatchAfterResponse();
 
         $report->update([
             'batch_id' => $batch->id,

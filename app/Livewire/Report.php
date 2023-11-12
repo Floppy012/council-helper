@@ -12,21 +12,16 @@ class Report extends Component
     #[Locked]
     public ReportModel $report;
 
-    #[Locked]
-    public bool $loading;
-
     public function mount(ReportModel $report): void
     {
         $this->report = $report;
-        $this->loading = (bool) $report->batch_id;
     }
 
-    public function refreshLoadingState(): void
+    public function refresh(): void
     {
-        $this->loading = ReportModel::query()
+        $this->report = ReportModel::query()
             ->where('public_id', $this->report->public_id)
-            ->whereNotNull('batch_id')
-            ->exists();
+            ->first();
     }
 
     public function render(): View
