@@ -21,6 +21,9 @@ class AnalyzedReport extends Model
         'dps_median' => 'double',
         'dps_min' => 'double',
         'dps_max' => 'double',
+        'simulated_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function report(): BelongsTo

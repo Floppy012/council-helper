@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('icon_slug');
             $table->boolean('catalyst')->default(false);
-            $table->foreignId('catalyst_source_item_id')->nullable()->constrained('items')->cascadeOnDelete();
+            $table->foreignId('catalyst_item_id')->nullable()->constrained('items')->cascadeOnDelete();
 
             $table->unique(['encounter_id', 'blizzard_item_id']);
         });

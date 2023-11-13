@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double('dps_median');
             $table->double('dps_min');
             $table->double('dps_max');
+            $table->timestamp('simulated_at');
             $table->timestamps();
         });
     }

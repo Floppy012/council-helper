@@ -27,12 +27,12 @@ class Item extends Model
 
     public function catalystSourceItems(): HasMany
     {
-        return $this->hasMany(Item::class, 'catalyst_source_item_id');
+        return $this->hasMany(Item::class, 'catalyst_item_id');
     }
 
     public function catalystItem(): BelongsTo
     {
-        return $this->belongsTo(Item::class, 'catalyst_source_item_id');
+        return $this->belongsTo(Item::class, 'catalyst_item_id');
     }
 
     public function simResults(): HasMany
