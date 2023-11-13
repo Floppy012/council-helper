@@ -32,3 +32,40 @@ $size-suffixes: ('md', 'lg', 'xl', '2xl')
             @include size-suffixes
                 border-top-left-radius: 0
                 border-bottom-left-radius: 0
+
+// table-auto w-full mt-2 [&_th]:text-left [&_th]:py-2 [&_td]:py-2 [&_thead]:px-4 bg-white/10 rounded-md
+.sim-table
+    width: 100%
+    margin-top: .6rem
+    background-color: rgba(255, 255, 255, 0.15)
+    border-radius: 0.375em
+    overflow: hidden
+    th, td
+        padding: .5em
+        text-align: left
+        &:first-child
+            padding-left: 1em
+        &:last-child
+            padding-right: 1em
+    thead
+        tr
+            background-color: rgba(25, 25, 25, 1)
+    tbody
+        tr:nth-child(odd)
+            background-color: rgba(0, 0, 0, 0.25)
+        td
+            &.gain:before
+                content: "+"
+            padding: .5em
+            &> span.cat
+                position: relative
+                &:after
+                    content: "CAT"
+                    position: absolute
+                    top: -.2em
+                    left: .2em
+                    border-radius: .375em
+                    background-color: #0c8a60
+                    font-size: .6em
+                    font-weight: bold
+                    padding: .1em .2em .1em .2em

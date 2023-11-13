@@ -23,8 +23,4 @@ Route::get('/raid', \App\Livewire\RaidSelect::class)->name('raid-select');
 
 Route::get('/raid/{raid:slug}', \App\Livewire\EncounterSelect::class)->name('encounter-select');
 
-Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', fn () => 'TODO')->name('encounter');
-
-Route::get('/test', function () {
-    return \App\Models\ReportRawData::first()->data->sim;
-});
+Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', \App\Livewire\LootOverview::class)->name('encounter');

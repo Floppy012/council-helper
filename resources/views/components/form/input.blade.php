@@ -1,9 +1,10 @@
 @props(['size', 'name'])
 
 @php
-$sizeClasses = match ($size) {
+$sizeClasses = match ($size ?? 'default') {
     'lg' => 'text-lg',
     '2xl' => 'text-2xl',
+    'sm' => 'text-sm',
     default => '',
 };
 
