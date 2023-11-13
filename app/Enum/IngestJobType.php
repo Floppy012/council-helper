@@ -16,4 +16,13 @@ enum IngestJobType: string
             IngestJobType::ANALYZE_REPORT => 'Analyze Report',
         };
     }
+
+    public function order(): int
+    {
+        return match ($this) {
+            IngestJobType::DOWNLOAD_REPORT => 0,
+            IngestJobType::VALIDATE_REPORT => 1,
+            IngestJobType::ANALYZE_REPORT => 2,
+        };
+    }
 }

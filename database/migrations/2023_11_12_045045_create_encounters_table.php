@@ -14,9 +14,11 @@ return new class extends Migration
             $table->string('slug');
             $table->string('name');
             $table->tinyInteger('order');
-            $table->integer('blizzard_encounter_id')->index();
+            $table->unsignedSmallInteger('blizzard_dungeon_encounter_id')->nullable()->index();
+            $table->unsignedSmallInteger('blizzard_journal_encounter_id')->nullable()->index();
 
             $table->unique(['raid_id', 'slug']);
+            $table->unique(['raid_id', 'order']);
         });
     }
 

@@ -26,4 +26,9 @@ class Report extends Model
     {
         return $this->hasOne(ReportRawData::class);
     }
+
+    public function analyzedReport(): HasOne
+    {
+        return $this->hasOne(AnalyzedReport::class);
+    }
 }

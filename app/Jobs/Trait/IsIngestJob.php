@@ -28,7 +28,7 @@ trait IsIngestJob
             'report_id' => $this->report->id,
             'type' => $this->type,
             'status' => IngestJobStatus::PROGRESSING,
-            'job_id' => $this->job->getJobId(),
+            'job_id' => $this->getJobId(),
         ], ['report_id', 'type']);
     }
 
@@ -40,5 +40,18 @@ trait IsIngestJob
             'status' => $success ? IngestJobStatus::SUCCEEDED : IngestJobStatus::FAILED,
             'errors' => json_encode($errors),
         ], ['report_id', 'type']);
+    }
+
+    private function getJobId(): ?string
+    {
+        if (! $job = $this->job) {
+            return null;
+        }
+
+        if (! property_exists($job, 'id')) {
+            return null;
+        }
+
+        return $job->id;
     }
 }

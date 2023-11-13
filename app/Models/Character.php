@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
+use App\Enum\CharacterRegion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Raid extends Model
+class Character extends Model
 {
-    public $timestamps = false;
+    protected $casts = [
+        'region' => CharacterRegion::class,
+    ];
 
     protected $hidden = [
         'id',
     ];
-
-    public function encounters(): HasMany
-    {
-        return $this->hasMany(Encounter::class)->orderBy('order');
-    }
 
     public function analyzedReports(): HasMany
     {

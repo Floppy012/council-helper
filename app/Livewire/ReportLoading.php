@@ -34,9 +34,10 @@ class ReportLoading extends Component
     {
         $this->jobs = $this->report->ingestJobs->map(fn (IngestJob $job) => [
             'type' => $job->type,
+            'order' => $job->type->order(),
             'status' => $job->status,
             'errors' => collect($job->errors)->flatten()->all(),
-        ])->all();
+        ])->sortBy('order')->all();
 
         if (! $this->report->batch_id) {
             $this->progress = 100;

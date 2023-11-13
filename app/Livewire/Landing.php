@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\AnalyzeReportJob;
 use App\Jobs\DownloadReportJob;
 use App\Jobs\FinalizeReportJob;
 use App\Jobs\ValidateReportJob;
@@ -18,6 +19,7 @@ class Landing extends Component
     )]
     public string $reportUrl;
 
+    /** @noinspection PhpMissingReturnTypeInspection */
     public function submit()
     {
         $this->validate();
@@ -30,6 +32,7 @@ class Landing extends Component
             [
                 new DownloadReportJob($report),
                 new ValidateReportJob($report),
+                new AnalyzeReportJob($report),
             ],
         ])
             ->then(fn () => dispatch_sync(new FinalizeReportJob($report, false)))

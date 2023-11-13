@@ -10,7 +10,7 @@ class ReportRawData extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'data' => 'json',
+        'data' => 'object',
     ];
 
     public function report(): BelongsTo

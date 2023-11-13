@@ -36,13 +36,13 @@ class ValidateReportJob implements ShouldQueue
         $this->begin();
         $instanceIds = Raid::pluck('blizzard_instance_id')->all();
         $rawData = $this->report->rawData;
-        $validator = Validator::make($rawData->data, [
+        $validator = Validator::make(json_decode(json_encode($rawData->data), true), [
             'simbot.simType' => ['bail', 'required', new EqualsRule('droptimizer')],
             'simbot.meta.rawFormData.droptimizer.instance' => ['required', new In($instanceIds)],
             'sim.options.fight_style' => ['required', new EqualsRule('patchwerk')],
             'sim.options.max_time' => ['required', 'numeric', new EqualsRule(360)],
             'sim.options.desired_targets' => ['required', 'numeric', new EqualsRule(1)],
-            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|heroic|mythic)-upgraded(?:-max)?$/'],
+            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)-upgraded(?:-max)?$/'],
         ], [
             'sim.options.max_time' => ':attribute must be 5 minutes',
             'simbot.meta.rawFormData.droptimizer.instance.in' => ':attribute not supported',
