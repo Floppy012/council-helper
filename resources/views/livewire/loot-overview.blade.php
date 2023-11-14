@@ -52,7 +52,7 @@
     </div>
     <div class="relative">
         @forelse($loot as $item)
-            <div x-transition x-show="!search || '{{strtolower($item->name)}}'.includes(search.toLowerCase())"
+            <div x-transition x-show="!search || @js(strtolower($item->name)).includes(search.toLowerCase())"
                  class="w-full p-5 rounded-md my-4 bg-dark-400/90 backdrop-blur shadow-md">
                 <div class="flex items-center">
                     <a href="#" data-wowhead="item={{$item->blizzard_item_id}}">
