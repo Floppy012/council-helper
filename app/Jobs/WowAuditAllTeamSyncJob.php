@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class WowAuditAllTeamSyncJob implements ShouldQueue
 {
@@ -18,12 +19,15 @@ class WowAuditAllTeamSyncJob implements ShouldQueue
     {
     }
 
+    /**
+     * @throws Throwable
+     */
     public function handle(): void
     {
         $jobs = Team::whereNotNull('wowaudit_secret')
             ->get()
             ->map(fn (Team $team) => new WowAuditTeamSyncJob($team));
 
-        Bus::batch($jobs);
+        Bus::batch($jobs)->dispatch();
     }
 }
