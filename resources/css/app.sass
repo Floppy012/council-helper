@@ -69,3 +69,14 @@ $size-suffixes: ('md', 'lg', 'xl', '2xl')
                     font-size: .6em
                     font-weight: bold
                     padding: .1em .2em .1em .2em
+
+
+.alert
+    border-radius: .275em
+    border: 1px solid
+    @apply p-3
+    @apply my-3
+    @apply text-sm
+    &.alert-error
+        @apply border-red-600
+        @apply bg-red-600/25

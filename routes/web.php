@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\LogoutController;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Livewire\ACP\Dashboard;
+use App\Livewire\EncounterSelect;
 use App\Livewire\Landing;
+use App\Livewire\Login;
+use App\Livewire\LootOverview;
+use App\Livewire\RaidSelect;
 use App\Livewire\Report;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +26,16 @@ Route::get('/', Landing::class)->name('landing');
 
 Route::get('/report/{report:public_id}', Report::class)->name('report');
 
-Route::get('/raid', \App\Livewire\RaidSelect::class)->name('raid-select');
+Route::get('/raid', RaidSelect::class)->name('raid-select');
 
-Route::get('/raid/{raid:slug}', \App\Livewire\EncounterSelect::class)->name('encounter-select');
+Route::get('/raid/{raid:slug}', EncounterSelect::class)->name('encounter-select');
 
-Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', \App\Livewire\LootOverview::class)->name('encounter');
+Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', LootOverview::class)->name('encounter');
+
+Route::middleware(RedirectIfAuthenticated::class)->get('/login', Login::class)->name('login');
+
+Route::middleware('auth')->prefix('/acp')->name('admin.')->group(function () {
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::post('/logout', LogoutController::class)
+        ->name('logout');
+});
