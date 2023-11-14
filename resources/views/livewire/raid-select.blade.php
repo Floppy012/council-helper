@@ -4,7 +4,7 @@
         @foreach($raids as $raid)
             <a
                 class="rounded-md shadow-md hover:shadow-2xl h-[180px] cursor-pointer transition-[box-shadow] bg-center bg-cover flex items-end justify-center"
-                style="background-image: url({{asset("images/blizzard/raids/{$raid->slug}/select.png")}})"
+                style="background-image: url({{asset("images/blizzard/raids/{$raid->slug}/select.jpg")}})"
                 href="{{ route('encounter-select', ['raid' => $raid->slug]) }}"
             >
                 <div
