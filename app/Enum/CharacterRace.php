@@ -12,6 +12,7 @@ enum CharacterRace: int
     case TAUREN = 6;
     case GNOME = 7;
     case TROLL = 8;
+    case GOBLIN = 9;
     case BLOOD_ELF = 10;
     case DRAENEI = 11;
     case WORGEN = 22;
