@@ -67,11 +67,12 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Class / Spec</th>
                                 <th>Sim Date</th>
-                                <th>Base DPS</th>
-                                <th>Item DPS</th>
-                                <th>Gain</th>
-                                <th>Gain %</th>
+                                <th class="!text-right">Base DPS</th>
+                                <th class="!text-right">Item DPS</th>
+                                <th class="!text-right">Gain</th>
+                                <th class="!text-right">Gain %</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -88,11 +89,12 @@
                                                 <span class="cat"></span>
                                             @endif
                                         </td>
+                                        <td>{{ $simResult->analyzedReport->spec_id->name() }}</td>
                                         <td>{{$simResult->analyzedReport->simulated_at->diffForHumans() }}</td>
-                                        <td>{{ number_format($simResult->analyzedReport->dps_mean, 2) }} DPS</td>
-                                        <td>{{ number_format($simResult->mean, 2) }} DPS</td>
-                                        <td class="{{$colorClass}} {{$stateClass}}">{{ number_format($simResult->mean_gain, 2) }} DPS</td>
-                                        <td class="{{$colorClass}} {{$stateClass}}">{{ number_format($gainPerc, 2) }} %</td>
+                                        <td class="!text-right">{{ number_format($simResult->analyzedReport->dps_mean, 2) }} DPS</td>
+                                        <td class="!text-right">{{ number_format($simResult->mean, 2) }} DPS</td>
+                                        <td class="!text-right {{$colorClass}} {{$stateClass}}">{{ number_format($simResult->mean_gain, 2) }} DPS</td>
+                                        <td class="!text-right {{$colorClass}} {{$stateClass}}">{{ number_format($gainPerc, 2) }} %</td>
                                     </tr>
                                 @endforeach
                             </tbody>

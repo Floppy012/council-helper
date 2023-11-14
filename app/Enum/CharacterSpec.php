@@ -55,4 +55,9 @@ enum CharacterSpec: int
     case ARMS_WARRIOR = 71;
     case FURY_WARRIOR = 72;
     case PROTECTION_WARRIOR = 73;
+
+    public function name(): string
+    {
+        return ucwords(str_replace('_', ' ', strtolower($this->name)));
+    }
 }
