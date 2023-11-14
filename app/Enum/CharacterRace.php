@@ -19,6 +19,8 @@ enum CharacterRace: int
     case PANDAREN_NEUTRAL = 24;
     case PANDAREN_ALLIANCE = 25;
     case PANDAREN_HORDE = 26;
+    case NIGHTBORNE = 27;
+    case HIGHMOUNTAIN_TAUREN = 28;
     case VOID_ELF = 29;
     case LIGHTFORGED_DRAENEI = 30;
     case ZANDALARI_TROLL = 31;
