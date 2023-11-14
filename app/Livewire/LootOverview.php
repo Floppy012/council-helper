@@ -68,7 +68,7 @@ class LootOverview extends Component
     protected function updateSimResults(): void
     {
         $query = ItemSimResult::from('item_sim_results as isr')
-            ->selectRaw('DISTINCT ON (isr.item_id, char.id) isr.*')
+            ->selectRaw('DISTINCT ON (isr.item_id, char.id, ar.spec_id) isr.*')
             ->join('analyzed_reports as ar', 'ar.id', '=', 'isr.analyzed_report_id')
             ->join('characters as char', 'char.id', '=', 'ar.character_id')
             ->leftJoin('characters_teams as c2t', 'c2t.character_id', '=', 'char.id')
@@ -84,6 +84,7 @@ class LootOverview extends Component
         $results = $query
             ->orderBy('isr.item_id', 'DESC')
             ->orderBy('char.id', 'DESC')
+            ->orderBy('ar.spec_id', 'DESC')
             ->orderBy('ar.created_at', 'DESC')
             ->orderBy('isr.median', 'DESC')
             ->with(['analyzedReport.character', 'item.catalystSourceItems'])
