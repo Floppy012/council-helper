@@ -19,6 +19,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AnalyzeReportJob implements ShouldQueue
@@ -102,10 +103,20 @@ class AnalyzeReportJob implements ShouldQueue
                 ->first(),
         ]);
 
-        $upsertNormalItems = $items->reject(fn (object $item) => ($item->tags ?? false) && $item->tags[0] === 'catalyst')
-            ->map(fn (object $item) => $this->createItemUpsert($item, $availableEncounters, $catalystItemMap->get($item->id)));
-
+        $normalItemsRaw = $items->reject(fn (object $item) => ($item->tags ?? false) && $item->tags[0] === 'catalyst');
+        $upsertNormalItems = $normalItemsRaw->map(fn (object $item) => $this->createItemUpsert($item, $availableEncounters));
         Item::upsert($upsertNormalItems->all(), ['encounter_id', 'blizzard_item_id']);
+
+        $normalItems = Item::whereIntegerInRaw('blizzard_item_id', $normalItemsRaw->pluck('id'))
+            ->get();
+
+        $upsertCatalystRelations = $normalItems->map(fn (Item $normal) => [
+            'item_id' => $normal->id,
+            'catalyst_item_id' => $catalystItemMap->get($normal->blizzard_item_id)?->id,
+        ])->filter(fn (array $arr) => (bool) $arr['catalyst_item_id']);
+
+        DB::table('catalyst_items_2_items')
+            ->upsert($upsertCatalystRelations->all(), ['item_id', 'catalyst_item_id']);
     }
 
     protected function syncSimResults(AnalyzedReport $analyzedReport, object $data): void
@@ -180,6 +191,7 @@ class AnalyzeReportJob implements ShouldQueue
                 'item_id' => $item->id,
                 'encounter_id' => $encounter->id,
                 'sim_slot' => $nameParts[6],
+                'profileset_special' => $nameParts[7] ?? null,
                 'profileset_name' => $set->name,
                 'mean' => $set->mean,
                 'median' => $set->median,
@@ -192,13 +204,23 @@ class AnalyzeReportJob implements ShouldQueue
             ];
         });
 
-        ItemSimResult::upsert($upserts->all(), ['analyzed_report_id', 'item_id', 'encounter_id', 'sim_slot']);
+        //        $dupeUpserts = $upserts->map(function (array $upsert) use ($upserts) {
+        //            return $upserts->filter(function (array $other) use ($upsert) {
+        //                return $upsert['analyzed_report_id'] === $other['analyzed_report_id']
+        //                    && $upsert['item_id'] === $other['item_id']
+        //                    && $upsert['encounter_id'] === $other['encounter_id']
+        //                    && $upsert['sim_slot'] === $other['sim_slot']
+        //                    && $upsert['profileset_special'] === $other['profileset_special'];
+        //            });
+        //        })->filter(fn (Collection $col) => $col->count() > 1);
+
+        ItemSimResult::upsert($upserts->all(), ['analyzed_report_id', 'item_id', 'encounter_id', 'sim_slot', 'profileset_special']);
     }
 
     /**
      * @param  Collection<int, Encounter>  $encounters
      */
-    protected function createItemUpsert(object $item, Collection $encounters, Item $catalystItem = null): array
+    protected function createItemUpsert(object $item, Collection $encounters): array
     {
         return [
             'encounter_id' => ($encounters->get($item->encounterId) ?? $encounters->get(-1))->id,
@@ -206,7 +228,6 @@ class AnalyzeReportJob implements ShouldQueue
             'name' => $item->name,
             'icon_slug' => $item->icon,
             'catalyst' => ($item->tags ?? false) && $item->tags[0] === 'catalyst',
-            'catalyst_item_id' => $catalystItem?->id,
         ];
     }
 }
