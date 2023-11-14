@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="relative">
-        @forelse($loot as $item)
+        @forelse($this->loot as $item)
             <div x-transition x-show="!search || @js(strtolower($item->name)).includes(search.toLowerCase())"
                  class="w-full p-5 rounded-md my-4 bg-dark-400/90 backdrop-blur shadow-md">
                 <div class="flex items-center">

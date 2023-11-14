@@ -4,11 +4,11 @@ namespace App\Livewire;
 
 use App\Enum\RaidDifficulty;
 use App\Models\Encounter;
-use App\Models\Item;
 use App\Models\ItemSimResult;
 use App\Models\Raid;
 use App\Models\Team;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Session;
@@ -24,10 +24,6 @@ class LootOverview extends Component
     public RaidDifficulty $difficulty;
 
     public ?string $filterTeamId = null;
-
-    /** @var Collection<integer, Item> */
-    #[Locked]
-    public Collection $loot;
 
     /** @var Collection<integer, Collection<integer, ItemSimResult>> */
     #[Locked]
@@ -45,8 +41,13 @@ class LootOverview extends Component
             $this->filterTeamId = $teamId;
         }
 
-        $this->loot = $this->encounter->loot()->where('catalyst', false)->orderBy('name')->get();
         $this->updateSimResults();
+    }
+
+    #[Computed]
+    public function loot(): Collection
+    {
+        return $this->encounter->loot()->where('catalyst', false)->orderBy('name')->get();
     }
 
     public function updated(string $property): void
@@ -91,7 +92,7 @@ class LootOverview extends Component
             ->get();
 
         $grouped = Collection::empty();
-        $itemIds = $this->loot->pluck('id');
+        $itemIds = $this->loot()->pluck('id');
 
         foreach ($results as $result) {
             if ($itemIds->contains($result->item_id)) {
