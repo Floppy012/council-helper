@@ -33,8 +33,20 @@
                 @endforeach
 
             </div>
-            <div class="ml-auto w-[15%]">
-                <x-form.input placeholder="Search ..." name="search" size="sm" x-model="search"/>
+            <div class="ml-auto flex flex-nowrap text-sm w-3/12 gap-x-4">
+                <div class="w-1/3">
+                    <x-form.select name="filterTeamId" wire:model.live="filterTeamId">
+                        <option value="" selected>All teams</option>
+                        @foreach($teams as $team)
+                            <option value="{{$team->public_id}}">{{$team->name}}</option>
+                        @endforeach
+                    </x-form.select>
+                </div>
+
+                <div class="w-2/3">
+                    <x-form.input placeholder="Search ..." name="search" size="sm" x-model="search"/>
+                </div>
+
             </div>
         </div>
     </div>
@@ -50,42 +62,44 @@
                     </a>
                 </div>
                 <div class="max-h-[30vh] overflow-y-auto mt-2">
-                    <table class="sim-table table-fixed">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Sim Date</th>
-                            <th>Base DPS</th>
-                            <th>Item DPS</th>
-                            <th>Gain</th>
-                            <th>Gain %</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($simResults->get($item->id) ?? [] as $simResult)
-                            @php
-                                $gainPerc = ($simResult->mean_gain / $simResult->analyzedReport->dps_mean) * 100;
-                                $stateClass = $gainPerc > 0 ? 'gain' : ($gainPerc === 0 ? 'same' : 'loss');
-                                $colorClass = $gainPerc > 0 ? 'text-green-500' : 'text-red-500';
-                            @endphp
+                    @if ($itemSimResults = $simResults->get($item->id))
+                        <table class="sim-table table-fixed">
+                            <thead>
                             <tr>
-                                <td>
-                                    {{$simResult->analyzedReport->character->name}}
-                                    @if ($simResult->item->catalyst)
-                                        <span class="cat"></span>
-                                    @endif
-                                </td>
-                                <td>{{$simResult->analyzedReport->simulated_at->diffForHumans() }}</td>
-                                <td>{{ number_format($simResult->analyzedReport->dps_mean, 2) }} DPS</td>
-                                <td>{{ number_format($simResult->mean, 2) }} DPS</td>
-                                <td class="{{$colorClass}} {{$stateClass}}">{{ number_format($simResult->mean_gain, 2) }} DPS</td>
-                                <td class="{{$colorClass}} {{$stateClass}}">{{ number_format($gainPerc, 2) }} %</td>
+                                <th>Name</th>
+                                <th>Sim Date</th>
+                                <th>Base DPS</th>
+                                <th>Item DPS</th>
+                                <th>Gain</th>
+                                <th>Gain %</th>
                             </tr>
-                        @empty
-                            nope
-                        @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($itemSimResults as $simResult)
+                                    @php
+                                        $gainPerc = ($simResult->mean_gain / $simResult->analyzedReport->dps_mean) * 100;
+                                        $stateClass = $gainPerc > 0 ? 'gain' : ($gainPerc === 0 ? 'same' : 'loss');
+                                        $colorClass = $gainPerc > 0 ? 'text-green-500' : 'text-red-500';
+                                    @endphp
+                                    <tr>
+                                        <td>
+                                            {{$simResult->analyzedReport->character->name}}
+                                            @if ($simResult->item->catalyst)
+                                                <span class="cat"></span>
+                                            @endif
+                                        </td>
+                                        <td>{{$simResult->analyzedReport->simulated_at->diffForHumans() }}</td>
+                                        <td>{{ number_format($simResult->analyzedReport->dps_mean, 2) }} DPS</td>
+                                        <td>{{ number_format($simResult->mean, 2) }} DPS</td>
+                                        <td class="{{$colorClass}} {{$stateClass}}">{{ number_format($simResult->mean_gain, 2) }} DPS</td>
+                                        <td class="{{$colorClass}} {{$stateClass}}">{{ number_format($gainPerc, 2) }} %</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="text-center font-bold">No simulations for this item/difficulty</div>
+                    @endif
                 </div>
 
             </div>

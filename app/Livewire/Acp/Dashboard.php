@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\ACP;
+namespace App\Livewire\Acp;
 
 use Illuminate\Http\Request;
 use Livewire\Component;

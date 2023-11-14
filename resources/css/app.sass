@@ -71,6 +71,31 @@ $size-suffixes: ('md', 'lg', 'xl', '2xl')
                     padding: .1em .2em .1em .2em
 
 
+table.table
+    thead
+        @apply font-bold
+        tr > th
+            @apply pb-4
+            @apply border-b
+            @apply border-dark-300
+            @apply text-left
+            &:last-child
+                @apply pr-6
+            &:first-child
+                @apply pl-6
+    tbody
+        tr > td
+            @apply py-4
+            @apply text-dark-50
+            &:last-child
+                @apply pr-6
+            &:first-child
+                @apply pl-6
+        tr:not(:last-child) > td
+            @apply border-b
+            @apply border-dark-300
+
+
 .alert
     border-radius: .275em
     border: 1px solid
@@ -80,3 +105,10 @@ $size-suffixes: ('md', 'lg', 'xl', '2xl')
     &.alert-error
         @apply border-red-600
         @apply bg-red-600/25
+
+.button
+    @apply rounded-md
+    @apply px-4
+    @apply py-2
+    @apply bg-indigo-800
+    @apply hover:bg-indigo-700

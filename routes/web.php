@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\LogoutController;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Livewire\ACP\Dashboard;
+use App\Livewire\Acp\Dashboard;
+use App\Livewire\Acp\Teams;
 use App\Livewire\EncounterSelect;
 use App\Livewire\Landing;
 use App\Livewire\Login;
@@ -35,7 +36,10 @@ Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', LootOverview::class)-
 Route::middleware(RedirectIfAuthenticated::class)->get('/login', Login::class)->name('login');
 
 Route::middleware('auth')->prefix('/acp')->name('admin.')->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::post('/logout', LogoutController::class)
         ->name('logout');
+
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/teams', Teams::class)->name('teams');
+
 });

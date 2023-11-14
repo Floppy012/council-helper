@@ -19,6 +19,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class AnalyzeReportJob implements ShouldQueue
 {
@@ -69,7 +70,7 @@ class AnalyzeReportJob implements ShouldQueue
         $region = $charInfo->region ?? $data->simbot->meta->rawFormData->armory?->region;
         $data = [
             'name' => $charInfo->name,
-            'realm' => $charInfo->realm,
+            'realm' => Str::lower($charInfo->realm),
             'region' => $region,
         ];
 

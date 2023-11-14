@@ -7,6 +7,7 @@ use App\Models\Encounter;
 use App\Models\Item;
 use App\Models\ItemSimResult;
 use App\Models\Raid;
+use App\Models\Team;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -22,6 +23,8 @@ class LootOverview extends Component
 
     public RaidDifficulty $difficulty;
 
+    public ?string $filterTeamId = null;
+
     /** @var Collection<integer, Item> */
     #[Locked]
     public Collection $loot;
@@ -36,6 +39,12 @@ class LootOverview extends Component
         $this->encounter = $encounter;
 
         $this->difficulty = Session::get('difficulty', RaidDifficulty::NORMAL);
+
+        $teamId = Session::get('filterTeamId');
+        if ($teamId && Team::where('public_id', $teamId)->exists()) {
+            $this->filterTeamId = $teamId;
+        }
+
         $this->loot = $this->encounter->loot()->where('catalyst', false)->orderBy('name')->get();
         $this->updateSimResults();
     }
@@ -46,17 +55,33 @@ class LootOverview extends Component
             Session::put('difficulty', $this->difficulty);
             $this->updateSimResults();
         }
+
+        if ($property === 'filterTeamId') {
+            if ($this->filterTeamId === '') {
+                $this->filterTeamId = null;
+            }
+            Session::put('filterTeamId', $this->filterTeamId);
+            $this->updateSimResults();
+        }
     }
 
     protected function updateSimResults(): void
     {
-        $results = ItemSimResult::from('item_sim_results as isr')
+        $query = ItemSimResult::from('item_sim_results as isr')
             ->selectRaw('DISTINCT ON (isr.item_id, char.id) isr.*')
             ->join('analyzed_reports as ar', 'ar.id', '=', 'isr.analyzed_report_id')
             ->join('characters as char', 'char.id', '=', 'ar.character_id')
+            ->leftJoin('characters_teams as c2t', 'c2t.character_id', '=', 'char.id')
+            ->leftJoin('teams', 'teams.id', '=', 'c2t.team_id')
             ->where('isr.encounter_id', $this->encounter->id)
             ->where('ar.raid_difficulty', $this->difficulty->value)
-            ->where('ar.simulated_at', '>', now()->subWeek())
+            ->where('ar.simulated_at', '>', now()->subWeek());
+
+        if ($this->filterTeamId) {
+            $query = $query->where('teams.public_id', $this->filterTeamId);
+        }
+
+        $results = $query
             ->orderBy('isr.item_id', 'DESC')
             ->orderBy('char.id', 'DESC')
             ->orderBy('ar.created_at', 'DESC')
@@ -87,6 +112,7 @@ class LootOverview extends Component
 
     public function render()
     {
-        return view('livewire.loot-overview');
+        return view('livewire.loot-overview')
+            ->with('teams', Team::all(['name', 'public_id']));
     }
 }

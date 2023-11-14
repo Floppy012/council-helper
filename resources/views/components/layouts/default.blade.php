@@ -7,7 +7,7 @@
         <title>{{ $title ?? 'Page Title' }}</title>
         @vite(['resources/css/tailwind.css', 'resources/css/app.sass', 'resources/js/app.ts'])
     </head>
-    <body class="bg-dark-600 text-gray-200">
+    <body class="relative bg-dark-600 text-gray-200 z-0">
         {{ $slot }}
     </body>
 </html>
