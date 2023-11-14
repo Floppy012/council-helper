@@ -63,9 +63,10 @@
                 </div>
                 <div class="max-h-[30vh] overflow-y-auto mt-2">
                     @if ($itemSimResults = $simResults->get($item->id))
-                        <table class="sim-table table-fixed">
+                        <table class="sim-table table-auto">
                             <thead>
                             <tr>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Class / Spec</th>
                                 <th>Sim Date</th>
@@ -83,6 +84,9 @@
                                         $colorClass = $gainPerc > 0 ? 'text-green-500' : 'text-red-500';
                                     @endphp
                                     <tr>
+                                        <td>
+                                            <a href="{{ $simResult->analyzedReport->report->url }}"><img src="https://www.raidbots.com/favicon-16x16.png" /></a>
+                                        </td>
                                         <td>
                                             {{$simResult->analyzedReport->character->name}}
                                             @if ($simResult->item->catalyst)
