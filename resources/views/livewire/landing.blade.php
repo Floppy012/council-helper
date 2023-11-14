@@ -6,7 +6,7 @@
     <div class="relative z-10 w-full">
         <div class="mb-8">
             <h3 class="text-2xl text-center font-bold">Submit your Droptimizer</h3>
-            <div class="mt-1 text-base text-gray-400 text-center">Patchwerk &middot; 1 Boss &middot; 6 Minutes &middot; SimC Nightly &middot; Optimal Raid Buffs</div>
+            <div class="mt-1 text-base text-gray-400 text-center">Patchwerk &middot; 1 Boss &middot; 5 Minutes &middot; SimC Nightly &middot; Optimal Raid Buffs</div>
         </div>
 
         <form wire:submit="submit">

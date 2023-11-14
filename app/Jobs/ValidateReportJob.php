@@ -40,7 +40,7 @@ class ValidateReportJob implements ShouldQueue
             'simbot.simType' => ['bail', 'required', new EqualsRule('droptimizer')],
             'simbot.meta.rawFormData.droptimizer.instance' => ['required', new In($instanceIds)],
             'sim.options.fight_style' => ['required', new EqualsRule('patchwerk')],
-            'sim.options.max_time' => ['required', 'numeric', new EqualsRule(360)],
+            'sim.options.max_time' => ['required', 'numeric', new EqualsRule(300)],
             'sim.options.desired_targets' => ['required', 'numeric', new EqualsRule(1)],
             'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)-upgraded(?:-max)?$/'],
         ], [
