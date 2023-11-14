@@ -11,7 +11,8 @@
         <ul>
             @foreach($jobs as $job)
                 <li>
-                    <i class="{{$job['status']->iconCss()}} {{$job['status']->colorCss()}} fa-fw mr-2"></i>{{$job['type']->name()}}
+                    @php($postClass = (!$failed && $job['status'] === \App\Enum\IngestJobStatus::PENDING) ? 'animate-pulse' : '')
+                    <i class="{{$job['status']->iconCss()}} {{$job['status']->colorCss()}} {{ $postClass }} fa-fw mr-2"></i>{{$job['type']->name()}}
                     @if ($job['errors'])
                         <ul class="text-red-500 ml-7">
                             @foreach($job['errors'] as $err)
