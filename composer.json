@@ -38,7 +38,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "cghooks add --ignore-lock"
+            "cghooks add --ignore-lock || true"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
