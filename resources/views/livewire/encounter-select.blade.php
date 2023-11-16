@@ -8,6 +8,16 @@
         <div class="text-2xl text-gray-400 mb-5">{{ $raid->name }}</div>
 
         <div class="grid grid-cols-5 gap-5">
+            <a
+                class="h-[200px] rounded-md shadow-lg hover:shadow-2xl transition-[box-shadow] cursor-pointer bg-dark-400 !bg-center !bg-cover flex items-end p-5"
+                style="
+                        background: radial-gradient(at center 10%, transparent 40%, black),
+                                    url({{asset("images/blizzard/raids/{$raid->slug}/encounters/all.jpg")}})
+                    "
+                href="{{route('encounter', ['raid' => $raid->slug, 'encounterSlug' => 'all'])}}"
+            >
+                <div class="flex items-center justify-center text-xl font-bold uppercase">All Encounters</div>
+            </a>
             @foreach($raid->encounters as $encounter)
                 <a
                     class="h-[200px] rounded-md shadow-lg hover:shadow-2xl transition-[box-shadow] cursor-pointer bg-dark-400 !bg-center !bg-cover flex items-end p-5"
@@ -15,7 +25,7 @@
                         background: radial-gradient(at center 10%, transparent 40%, black),
                                     url({{asset("images/blizzard/raids/{$raid->slug}/encounters/{$encounter->slug}.jpg")}})
                     "
-                    href="{{route('encounter', ['raid' => $raid->slug, 'encounter' => $encounter->slug])}}"
+                    href="{{route('encounter', ['raid' => $raid->slug, 'encounterSlug' => $encounter->slug])}}"
                 >
                     <div class="flex items-center justify-center text-xl font-bold uppercase">{{ $encounter->name }}</div>
                 </a>

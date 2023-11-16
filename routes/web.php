@@ -31,7 +31,7 @@ Route::get('/raid', RaidSelect::class)->name('raid-select');
 
 Route::get('/raid/{raid:slug}', EncounterSelect::class)->name('encounter-select');
 
-Route::get('/raid/{raid:slug}/encounter/{encounter:slug}', LootOverview::class)->name('encounter');
+Route::get('/raid/{raid:slug}/encounter/{encounterSlug}', LootOverview::class)->name('encounter');
 
 Route::middleware(RedirectIfAuthenticated::class)->get('/login', Login::class)->name('login');
 

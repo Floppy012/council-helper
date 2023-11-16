@@ -19,7 +19,7 @@ class LootOverview extends Component
     public Raid $raid;
 
     #[Locked]
-    public Encounter $encounter;
+    public ?Encounter $encounter = null;
 
     public RaidDifficulty $difficulty;
 
@@ -29,10 +29,10 @@ class LootOverview extends Component
     #[Locked]
     public Collection $simResults;
 
-    public function mount(Raid $raid, Encounter $encounter)
+    public function mount(Raid $raid, string $encounterSlug)
     {
         $this->raid = $raid;
-        $this->encounter = $encounter;
+        $this->encounter = Encounter::where('slug', $encounterSlug)->first();
 
         $this->difficulty = Session::get('difficulty', RaidDifficulty::NORMAL);
 
@@ -47,7 +47,13 @@ class LootOverview extends Component
     #[Computed]
     public function loot(): Collection
     {
-        return $this->encounter->loot()->where('catalyst', false)->orderBy('name')->get();
+        if ($this->encounter) {
+            $loot = $this->encounter->loot();
+        } else {
+            $loot = $this->raid->encounters()->join('items', 'items.encounter_id', '=', 'encounters.id');
+        }
+
+        return $loot->where('items.catalyst', false)->orderBy('items.name')->get();
     }
 
     public function updated(string $property): void
@@ -68,13 +74,14 @@ class LootOverview extends Component
 
     protected function updateSimResults(): void
     {
+        $encounterIds = $this->encounter ? [$this->encounter->id] : $this->raid->encounters()->pluck('id');
         $query = ItemSimResult::from('item_sim_results as isr')
             ->selectRaw('DISTINCT ON (isr.item_id, char.id, ar.spec_id) isr.*')
             ->join('analyzed_reports as ar', 'ar.id', '=', 'isr.analyzed_report_id')
             ->join('characters as char', 'char.id', '=', 'ar.character_id')
             ->leftJoin('characters_teams as c2t', 'c2t.character_id', '=', 'char.id')
             ->leftJoin('teams', 'teams.id', '=', 'c2t.team_id')
-            ->where('isr.encounter_id', $this->encounter->id)
+            ->whereIntegerInRaw('isr.encounter_id', $encounterIds)
             ->where('ar.raid_difficulty', $this->difficulty->value)
             ->where('ar.simulated_at', '>', now()->subWeek());
 

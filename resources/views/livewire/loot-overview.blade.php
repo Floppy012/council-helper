@@ -11,7 +11,7 @@
                 <i class="fas fa-chevron-left fa-fw"></i>
             </a>
 
-            <span class="p-1">{{ $encounter->name }}</span>
+            <span class="p-1">{{ $encounter->name ?? 'All Encounters' }}</span>
             <div class="flex w-[20%] gap-x-1 ml-2">
                 @foreach(\App\Enum\RaidDifficulty::cases() as $raidDifficulty)
                     <input
