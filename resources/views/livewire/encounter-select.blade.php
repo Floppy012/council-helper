@@ -33,4 +33,11 @@
 
         </div>
     </div>
+
+    @teleport('body')
+    <div class="absolute top-0 right-0 p-8 flex justify-center z-10">
+        <a class="button text-sm" href="{{ route('landing') }}">Submit a report</a>
+    </div>
+    @endteleport
+
 </div>
