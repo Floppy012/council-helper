@@ -61,6 +61,19 @@ class AnalyzeReportJob implements ShouldQueue
             'simulated_at' => Carbon::createFromTimestampMs($data->simbot->jobSubmitted),
         ]);
 
+        AnalyzedReport::query()
+            ->whereNull('superseding_id')
+            ->whereNot('id', $analyzedReport->id)
+            ->where('raid_id', $analyzedReport->raid_id)
+            ->where('raid_difficulty', $analyzedReport->raid_difficulty)
+            ->where('class_id', $analyzedReport->class_id)
+            ->where('race_id', $analyzedReport->race_id)
+            ->where('spec_id', $analyzedReport->spec_id)
+            ->where('character_id', $analyzedReport->character_id)
+            ->update([
+                'superseding_id' => $analyzedReport->id,
+            ]);
+
         $this->syncItemLibrary($analyzedReport, $data);
         $this->syncSimResults($analyzedReport, $data);
     }

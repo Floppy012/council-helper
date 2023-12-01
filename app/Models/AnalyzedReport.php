@@ -45,4 +45,14 @@ class AnalyzedReport extends Model
     {
         return $this->hasMany(ItemSimResult::class);
     }
+
+    public function supersedingReport(): BelongsTo
+    {
+        return $this->belongsTo(AnalyzedReport::class, 'superseding_id');
+    }
+
+    public function supersededReports(): HasMany
+    {
+        return $this->hasMany(AnalyzedReport::class, 'superseding_id');
+    }
 }

@@ -83,7 +83,8 @@ class LootOverview extends Component
             ->leftJoin('teams', 'teams.id', '=', 'c2t.team_id')
             ->whereIntegerInRaw('isr.encounter_id', $encounterIds)
             ->where('ar.raid_difficulty', $this->difficulty->value)
-            ->where('ar.simulated_at', '>', now()->subWeek());
+            ->where('ar.simulated_at', '>', now()->subWeek())
+            ->whereNull('ar.superseding_id');
 
         if ($this->filterTeamId) {
             $query = $query->where('teams.public_id', $this->filterTeamId);
