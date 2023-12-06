@@ -42,7 +42,7 @@ class ValidateReportJob implements ShouldQueue
             'sim.options.fight_style' => ['required', new EqualsRule('patchwerk')],
             'sim.options.max_time' => ['required', 'numeric', new EqualsRule(300)],
             'sim.options.desired_targets' => ['required', 'numeric', new EqualsRule(1)],
-            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)-upgraded(?:-max)?$/'],
+            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)?$/'],
         ], [
             'sim.options.max_time' => ':attribute must be 5 minutes',
             'simbot.meta.rawFormData.droptimizer.instance.in' => ':attribute not supported',
