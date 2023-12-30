@@ -22,7 +22,8 @@
             <thead>
                 <tr>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">Date</th>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white">Raid</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Raid</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Difficulty</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Class & Spec</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">SimDPS</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Action</th>
@@ -33,6 +34,7 @@
                     <tr>
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{{ $report->simulated_at->format('d.m.Y H:i')}}</td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{{ $report->raid->name }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{{ $report->raid_difficulty->name() }}</td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{{ $report->spec_id->name() }}</td>
 
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{{ number_format($report->dps_mean, 2) }} DPS</td>

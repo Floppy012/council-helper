@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enum\CharacterClass;
 use App\Enum\CharacterRace;
 use App\Enum\CharacterSpec;
+use App\Enum\RaidDifficulty;
 use App\Models\AnalyzedReport;
 use App\Models\Character;
 use Illuminate\Support\Collection;
@@ -23,10 +24,12 @@ class CharacterProfile extends Component
     #[Locked]
     public CharacterClass $lastClass;
 
+    public RaidDifficulty $difficulty = RaidDifficulty::MYTHIC;
+
     public function mount(): void
     {
         $latestReports = $this->character->analyzedReports()
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('simulated_at', 'DESC')
             ->first();
 
         if ($latestReport = $latestReports->first()) {
@@ -45,6 +48,7 @@ class CharacterProfile extends Component
         return $this->character->analyzedReports()->select([
             'spec_id', 'simulated_at', 'dps_mean', 'raid_difficulty', 'raid_id', 'report_id',
         ])
+            ->orderBy('simulated_at', 'DESC')
             ->with(['raid', 'report'])
             ->limit(100)
             ->get();
@@ -54,6 +58,7 @@ class CharacterProfile extends Component
     public function dpsHistoryDatasets(): array
     {
         return $this->analyzedReports()
+            ->where('raid_difficulty', RaidDifficulty::MYTHIC)
             ->groupBy('spec_id.value')
             ->map(function (Collection $reports, int $specId) {
                 return [
