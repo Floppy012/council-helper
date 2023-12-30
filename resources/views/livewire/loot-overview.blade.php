@@ -1,4 +1,4 @@
-<div class="relative p-10 h-screen overflow-scroll" x-data="{ search: '' }">
+<div class="relative p-10 h-screen overflow-scroll" x-data="{ searchItems: '', searchPlayers: '' }">
     <div
             class="fixed z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center"
             style="background-image: url({{asset("images/blizzard/raids/{$raid->slug}/background.jpg")}})"
@@ -33,7 +33,7 @@
                 @endforeach
 
             </div>
-            <div class="ml-auto flex flex-nowrap text-sm w-3/12 gap-x-4">
+            <div class="ml-auto flex flex-nowrap text-sm w-4/12 gap-x-4">
                 <div class="w-1/3">
                     <x-form.select name="filterTeamId" wire:model.live="filterTeamId">
                         <option value="" selected>All teams</option>
@@ -43,8 +43,12 @@
                     </x-form.select>
                 </div>
 
-                <div class="w-2/3">
-                    <x-form.input placeholder="Search ..." name="search" size="sm" x-model="search"/>
+                <div class="w-1/3">
+                    <x-form.input placeholder="Search Items ..." name="searchItems" size="sm" x-model="searchItems"/>
+                </div>
+
+                <div class="w-1/3">
+                    <x-form.input placeholder="Search Players ..." name="searchPlayers" size="sm" x-model="searchPlayers"/>
                 </div>
 
             </div>
@@ -52,7 +56,7 @@
     </div>
     <div class="relative">
         @forelse($this->loot as $item)
-            <div x-transition x-show="!search || @js(strtolower($item->name)).includes(search.toLowerCase())"
+            <div x-transition x-show="!searchItems || @js(strtolower($item->name)).includes(searchItems.toLowerCase())"
                  class="w-full p-5 rounded-md my-4 bg-dark-400/90 backdrop-blur shadow-md">
                 <div class="flex items-center">
                     <a href="#" data-wowhead="item={{$item->blizzard_item_id}}">
@@ -83,7 +87,7 @@
                                         $stateClass = $gainPerc > 0 ? 'gain' : ($gainPerc === 0 ? 'same' : 'loss');
                                         $colorClass = $gainPerc > 0 ? 'text-green-500' : 'text-red-500';
                                     @endphp
-                                    <tr>
+                                    <tr x-transition x-show="!searchPlayers || normalizeString(@js(strtolower($simResult->analyzedReport->character->name))).includes(normalizeString(searchPlayers.toLowerCase()))">
                                         <td>
                                             <a href="{{ $simResult->analyzedReport->report->url }}"><img src="https://www.raidbots.com/favicon-16x16.png" /></a>
                                         </td>
@@ -117,4 +121,9 @@
 
     <script>const whTooltips = {colorLinks: false, iconizeLinks: false, renameLinks: false};</script>
     <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+    <script>
+        function normalizeString(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+    </script>
 </div>
