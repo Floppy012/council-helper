@@ -88,8 +88,9 @@
                                         $colorClass = $gainPerc > 0 ? 'text-green-500' : 'text-red-500';
                                     @endphp
                                     <tr x-transition x-show="!searchPlayers || normalizeString(@js(strtolower($simResult->analyzedReport->character->name))).includes(normalizeString(searchPlayers.toLowerCase()))">
-                                        <td>
+                                        <td class="flex flex-row items-center gap-x-4">
                                             <a href="{{ $simResult->analyzedReport->report->url }}"><img src="https://www.raidbots.com/favicon-16x16.png" /></a>
+                                            <a href="{{ route('character-profile', ['character' => $simResult->analyzedReport->character->public_id]) }}"><i class="fas fa-user"></i></a>
                                         </td>
                                         <td>
                                             {{$simResult->analyzedReport->character->name}}

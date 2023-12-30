@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\RawReportController;
+use App\Http\Controllers\SimCController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Livewire\Acp\Dashboard;
 use App\Livewire\Acp\Teams;
+use App\Livewire\CharacterProfile;
 use App\Livewire\EncounterSelect;
 use App\Livewire\Landing;
 use App\Livewire\Login;
@@ -32,6 +35,11 @@ Route::get('/raid', RaidSelect::class)->name('raid-select');
 Route::get('/raid/{raid:slug}', EncounterSelect::class)->name('encounter-select');
 
 Route::get('/raid/{raid:slug}/encounter/{encounterSlug}', LootOverview::class)->name('encounter');
+
+Route::get('/characters/{character:public_id}', CharacterProfile::class)->name('character-profile');
+
+Route::get('/raw/{report:public_id}', RawReportController::class)->name('raw-report');
+Route::get('/raw/{report:public_id}/simc', SimCController::class)->name('simc');
 
 Route::middleware(RedirectIfAuthenticated::class)->get('/login', Login::class)->name('login');
 

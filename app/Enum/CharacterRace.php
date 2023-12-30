@@ -31,4 +31,8 @@ enum CharacterRace: int
     case DRACTHYR_ALLIANCE = 52;
     case DRACTHYR_HORDE = 70;
 
+    public function name(): string
+    {
+        return ucwords(str_replace('_', ' ', strtolower($this->name)));
+    }
 }
