@@ -29,7 +29,9 @@
 
     @teleport('body')
     <div class="absolute top-0 right-0 p-8 flex justify-center">
-        <a class="button text-sm" href="{{ route('encounter-select', ['raid' => 'amirdrassil']) }}">Show current raid</a>
+        <a class="button text-sm mr-3" href="{{ route('encounter-select', ['raid' => 'vault-of-the-incarnates']) }}">Vault of the Incarnates</a>
+        <a class="button text-sm mr-3" href="{{ route('encounter-select', ['raid' => 'aberrus']) }}">Aberrus</a>
+        <a class="button text-sm" href="{{ route('encounter-select', ['raid' => 'amirdrassil']) }}">Amirdrassil</a>
     </div>
     @endteleport
 
