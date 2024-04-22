@@ -43,7 +43,7 @@ class ValidateReportJob implements ShouldQueue
             'sim.options.fight_style' => ['required', new EqualsRule('patchwerk')],
             'sim.options.max_time' => ['required', 'numeric', new EqualsRule(300)],
             'sim.options.desired_targets' => ['required', 'numeric', new EqualsRule(1)],
-            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)?$/'],
+            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)-fated$/'],
             'simbot.meta.ptr' => ['required', new EqualsRule(false)],
             'simbot.meta.customApl' => ['required', new EqualsRule(false)],
             'simbot.meta.expertMode' => ['required', new EqualsRule(false)],
@@ -67,6 +67,8 @@ class ValidateReportJob implements ShouldQueue
             'simbot.meta.corruptingRageUptime' => ['required', new EqualsRule(80)],
             // Seasonal stuff
             'simbot.meta.balefireBranchRngType' => ['required', new EqualsRule('constant')],
+            'simbot.meta.whisperingIncarnateIconRoles' => ['required', new EqualsRule('dps/heal/tank')],
+            'simbot.meta.ominousChromaticEssenceAllies' => ['required', new EqualsRule('obsidian/emerald/bronze/azure/ruby')],
 
         ], [
             'sim.options.max_time' => ':attribute must be 5 minutes',
@@ -95,6 +97,8 @@ class ValidateReportJob implements ShouldQueue
 
             // Seasonal
             'simbot.meta.balefireBranchRngType' => 'Balefire Branch Uptime must be set to "Default"',
+            'simbot.meta.whisperingIncarnateIconRoles' => 'Whispering Incarnate Icon Roles must be "DPS + Tank + Healer"',
+            'simbot.meta.ominousChromaticEssenceAllies' => 'Ominous Chromatic Essence Allies must be "All Ally Buffs"',
         ], [
             'simbot.simType' => 'Simulation Type',
             'sim.options.fight_style' => 'Fight style',

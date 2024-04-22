@@ -10,12 +10,26 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class UpgradeLevelRule implements DataAwareRule, ValidationRule
 {
     private static array $MAX_UPGRADES = [
+        // VotI
+        1200 => [
+            'raid-lfr-fated' => 10320,
+            'raid-normal-fated' => 10334,
+            'raid-heroic-fated' => 10338,
+            'raid-mythic-fated' => 10338,
+        ],
         // Amirdrassil
         1207 => [
-            'raid-lfr' => 9559,
-            'raid-normal' => 9567,
-            'raid-heroic' => 9581,
-            'raid-mythic' => 9576,
+            'raid-lfr-fated' => 10320,
+            'raid-normal-fated' => 10334,
+            'raid-heroic-fated' => 10338,
+            'raid-mythic-fated' => 10338,
+        ],
+        // Aberrus
+        1208 => [
+            'raid-lfr-fated' => 10320,
+            'raid-normal-fated' => 10334,
+            'raid-heroic-fated' => 10338,
+            'raid-mythic-fated' => 10338,
         ],
     ];
 
@@ -29,8 +43,20 @@ class UpgradeLevelRule implements DataAwareRule, ValidationRule
         $instanceId = $this->data['simbot.meta.rawFormData.droptimizer.instance'];
         $difficulty = $this->data['simbot.meta.rawFormData.droptimizer.difficulty'];
 
+        if (! array_key_exists($instanceId, self::$MAX_UPGRADES)) {
+            $fail("Unknown raid id $instanceId");
+
+            return;
+        }
+
         $upgradeIds = self::$MAX_UPGRADES[$instanceId];
         if (! $upgradeIds) {
+            return;
+        }
+
+        if (! array_key_exists($difficulty, $upgradeIds)) {
+            $fail("Unknown raid difficulty $difficulty");
+
             return;
         }
 
