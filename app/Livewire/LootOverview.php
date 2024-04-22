@@ -32,7 +32,10 @@ class LootOverview extends Component
     public function mount(Raid $raid, string $encounterSlug)
     {
         $this->raid = $raid;
-        $this->encounter = Encounter::where('slug', $encounterSlug)->first();
+        $this->encounter = Encounter::query()
+            ->where('raid_id', $this->raid->id)
+            ->where('slug', $encounterSlug)
+            ->first();
 
         $this->difficulty = Session::get('difficulty', RaidDifficulty::NORMAL);
 
