@@ -1,7 +1,7 @@
 <div class="w-1/2 m-auto flex items-center h-screen">
     <div
-            class="absolute z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center"
-            style="background-image: url({{asset("images/blizzard/raids/amirdrassil/background.jpg")}})"
+            class="absolute z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center opacity-40"
+            style="background-image: url({{asset("images/blizzard/background.jpg")}})"
     ></div>
     <div class="relative z-10 w-full">
         <div class="mb-8">

@@ -14,7 +14,7 @@ use Livewire\Component;
 class Landing extends Component
 {
     #[Rule(
-        ['required', 'string', 'url', 'active_url', 'regex:/^https?:\/\/(?:www\.)?raidbots.com\/simbot\/report\/[a-zA-Z0-9]+$/'],
+        ['required', 'string', 'url', 'active_url', 'regex:/^https?:\/\/(?:www\.|mimiron\.)?raidbots.com\/simbot\/report\/[a-zA-Z0-9]+$/'],
         as: 'report url'
     )]
     public string $reportUrl;

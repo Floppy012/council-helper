@@ -1,16 +1,25 @@
 <div class="h-screen flex items-center justify-center">
-    @if($report->batch_id)
-        <div wire:poll class="w-1/2">
-            <livewire:report-loading :report="$report" />
-        </div>
-    @else
-        <div>
-            <h3 class="text-3xl text-center">Your report has been submitted 🎉</h3>
-            <div class="flex justify-around mt-4">
-                <a class="button w-[45%] text-center text-sm" href="{{ route('landing') }}">Submit another report</a>
-                <a class="button w-[45%] text-center text-sm" href="{{ route('encounter-select', ['raid' => 'amirdrassil']) }}">Show current raid</a>
+    <div
+        class="absolute z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center opacity-40"
+        style="background-image: url({{asset("images/blizzard/background.jpg")}})"
+    ></div>
+    <div class="z-10">
+        @if($report->batch_id)
+            <div wire:poll class="w-1/2">
+                <livewire:report-loading :report="$report" />
             </div>
-        </div>
-    @endif
+        @else
+            <div>
+                <h3 class="text-3xl text-center">Your report has been submitted 🎉</h3>
+                <div class="flex justify-around mt-4">
+                    <a class="button w-[45%] text-center text-sm" href="{{ route('landing') }}">Submit another report</a>
+                    @if ($raidSlug)
+                        <a class="button w-[45%] text-center text-sm" href="{{ route('encounter-select', ['raid' => $raidSlug]) }}">Show current raid</a>
+                    @endif
+                </div>
+            </div>
+        @endif
+    </div>
+
 </div>
 

@@ -4,8 +4,17 @@
         style="background-image: url({{asset("images/blizzard/raids/{$raid->slug}/background.jpg")}})"
     ></div>
     <div class="z-10 relative">
-        <div class="text-4xl">Select Encounter</div>
-        <div class="text-2xl text-gray-400 mb-5">{{ $raid->name }}</div>
+        <div class="flex">
+            <div class="text-4xl">
+                <a href="{{ route('raid-select') }}">
+                    <i class="fas fa-chevron-left fa-fw"></i>
+                </a>
+            </div>
+            <div>
+                <div class="text-4xl">Select Encounter</div>
+                <div class="text-2xl text-gray-400 mb-5">{{ $raid->name }}</div>
+            </div>
+        </div>
 
         <div class="grid grid-cols-5 gap-5">
             <a
