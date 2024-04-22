@@ -21,6 +21,7 @@ COPY docker/supervisor/horizon.conf /opt/docker/etc/supervisor.d/
 COPY docker/crontab /opt/docker/etc/cron/
 
 RUN docker-service-enable horizon
+RUN docker-service-enable cron
 
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN php artisan horizon:publish
