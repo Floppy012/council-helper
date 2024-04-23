@@ -1,14 +1,18 @@
-<div class="h-screen flex items-center justify-center">
+@if($report->batch_id)
+    <div wire:poll class="h-screen w-full flex items-center justify-center">
+        <div class="w-1/2 flex items-center justify-center">
+            <livewire:report-loading :report="$report" />
+        </div>
+    </div>
+@else
+    <div class="h-screen flex items-center justify-center">
     <div
         class="absolute z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center opacity-40"
         style="background-image: url({{asset("images/blizzard/background.jpg")}})"
     ></div>
     <div class="z-10">
-        @if($report->batch_id)
-            <div wire:poll class="w-1/2">
-                <livewire:report-loading :report="$report" />
-            </div>
-        @else
+
+
             <div>
                 <h3 class="text-3xl text-center">Your report has been submitted 🎉</h3>
                 <div class="flex justify-around mt-4">
@@ -18,8 +22,7 @@
                     @endif
                 </div>
             </div>
-        @endif
     </div>
-
 </div>
+@endif
 

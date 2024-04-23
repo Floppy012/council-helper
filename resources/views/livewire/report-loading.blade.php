@@ -1,9 +1,9 @@
 <div class="w-3/4">
     <div
-            class="absolute z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center"
+            class="absolute z-0 w-full h-full top-0 left-0 blur-md bg-cover bg-center opacity-40"
             style="background-image: url({{asset("images/blizzard/background.jpg")}})"
     ></div>
-    <div wire:poll="refresh" class="relative z-10 w-full bg-dark-700/90 backdrop-blur p-5 rounded-md shadow-md">
+    <div wire:poll="refresh" class="relative z-10 w-full bg-dark-600 p-5 rounded-md shadow-md">
         <span class="font-bold text-lg">
             @if($failed) Report analyzation failed @else Your report is being analyzed ...@endif
         </span>
