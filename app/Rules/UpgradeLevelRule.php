@@ -14,21 +14,21 @@ class UpgradeLevelRule implements DataAwareRule, ValidationRule
         1200 => [
             'raid-lfr-fated' => 10320,
             'raid-normal-fated' => 10320,
-            'raid-heroic-fated' => 10334,
+            'raid-heroic-fated' => 10338,
             'raid-mythic-fated' => 10338,
         ],
         // Amirdrassil
         1207 => [
             'raid-lfr-fated' => 10320,
             'raid-normal-fated' => 10320,
-            'raid-heroic-fated' => 10334,
+            'raid-heroic-fated' => 10338,
             'raid-mythic-fated' => 10338,
         ],
         // Aberrus
         1208 => [
             'raid-lfr-fated' => 10320,
             'raid-normal-fated' => 10320,
-            'raid-heroic-fated' => 10334,
+            'raid-heroic-fated' => 10338,
             'raid-mythic-fated' => 10338,
         ],
     ];
