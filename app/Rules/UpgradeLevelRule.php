@@ -10,26 +10,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class UpgradeLevelRule implements DataAwareRule, ValidationRule
 {
     private static array $MAX_UPGRADES = [
-        // VotI
-        1200 => [
-            'raid-lfr-fated' => 10320,
-            'raid-normal-fated' => 10334,
-            'raid-heroic-fated' => 10338,
-            'raid-mythic-fated' => 10338,
-        ],
-        // Amirdrassil
-        1207 => [
-            'raid-lfr-fated' => 10320,
-            'raid-normal-fated' => 10334,
-            'raid-heroic-fated' => 10338,
-            'raid-mythic-fated' => 10338,
-        ],
-        // Aberrus
-        1208 => [
-            'raid-lfr-fated' => 10320,
-            'raid-normal-fated' => 10334,
-            'raid-heroic-fated' => 10338,
-            'raid-mythic-fated' => 10338,
+        1273 => [
+            'raid-lfr' => 10274,
+            'raid-normal' => 10266,
+            'raid-heroic' => 10256,
+            'raid-mythic' => 10299,
         ],
     ];
 
@@ -61,11 +46,6 @@ class UpgradeLevelRule implements DataAwareRule, ValidationRule
         }
 
         $expected = $upgradeIds[$difficulty];
-        if (! $expected) {
-            $fail("Unknown raid difficulty $difficulty");
-
-            return;
-        }
 
         if ($value !== $expected) {
             $fail('Sim does not contain max-upgraded items');

@@ -9,4 +9,5 @@ enum CharacterRegion: string
     case TW = 'tw';
     case CN = 'cn';
     case KR = 'kr';
+    case TR = 'tr'; // Test Region?
 }

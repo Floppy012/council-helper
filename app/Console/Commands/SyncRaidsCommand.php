@@ -8,6 +8,8 @@ use Illuminate\Console\Command;
 
 /**
  * @see https://wowpedia.fandom.com/wiki/JournalEncounterID
+ * @see https://wago.tools/db2/JournalEncounter
+ * @see https://wago.tools/db2/DungeonEncounter
  */
 class SyncRaidsCommand extends Command
 {
@@ -18,6 +20,11 @@ class SyncRaidsCommand extends Command
     public function handle(): void
     {
         Raid::upsert([
+            [
+                'slug' => 'nerubar-palace',
+                'name' => 'Nerub\'ar Palace',
+                'blizzard_instance_id' => 1273,
+            ],
             [
                 'slug' => 'amirdrassil',
                 'name' => 'Amirdrassil',
@@ -35,11 +42,94 @@ class SyncRaidsCommand extends Command
             ],
         ], ['slug']);
 
+        $this->syncNerubarPalaceBosses();
         $this->syncAmirdrassilBosses();
         $this->syncAberrusBosses();
         $this->syncVotiBosses();
     }
 
+    private function syncNerubarPalaceBosses(): void
+    {
+        $palace = Raid::where('slug', 'nerubar-palace')->firstOrFail();
+        Encounter::upsert([
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'trash',
+                'name' => 'Trash',
+                'order' => 0,
+                'blizzard_dungeon_encounter_id' => null,
+                'blizzard_journal_encounter_id' => null,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'ulgrax',
+                'name' => 'Ulgrax',
+                'order' => 1,
+                'blizzard_dungeon_encounter_id' => 2902,
+                'blizzard_journal_encounter_id' => 2607,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'bloodhound-horror',
+                'name' => 'The Bloodhound Horror',
+                'order' => 2,
+                'blizzard_dungeon_encounter_id' => 2917,
+                'blizzard_journal_encounter_id' => 2611,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'sikran',
+                'name' => 'Sikran',
+                'order' => 3,
+                'blizzard_dungeon_encounter_id' => 2898,
+                'blizzard_journal_encounter_id' => 2599,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'rashanan',
+                'name' => 'Rasha\'nan',
+                'order' => 4,
+                'blizzard_dungeon_encounter_id' => 2918,
+                'blizzard_journal_encounter_id' => 2609,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'ovinax',
+                'name' => 'Broodtwister Ovi\'nax',
+                'order' => 5,
+                'blizzard_dungeon_encounter_id' => 2919,
+                'blizzard_journal_encounter_id' => 2612,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'kyveza',
+                'name' => 'Nexus-Princess Ky\'veza',
+                'order' => 6,
+                'blizzard_dungeon_encounter_id' => 2920,
+                'blizzard_journal_encounter_id' => 2601,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'silken-court',
+                'name' => 'The Silken Court',
+                'order' => 7,
+                'blizzard_dungeon_encounter_id' => 2921,
+                'blizzard_journal_encounter_id' => 2608,
+            ],
+            [
+                'raid_id' => $palace->id,
+                'slug' => 'ansurek',
+                'name' => 'Queen Ansurek',
+                'order' => 8,
+                'blizzard_dungeon_encounter_id' => 2922,
+                'blizzard_journal_encounter_id' => 2602,
+            ],
+        ], ['raid_id', 'slug']);
+    }
+
+    /**
+     * DF S3
+     */
     private function syncAmirdrassilBosses(): void
     {
         $amirdrassil = Raid::where('slug', 'amirdrassil')->firstOrFail();
@@ -128,6 +218,9 @@ class SyncRaidsCommand extends Command
         ], ['raid_id', 'slug']);
     }
 
+    /**
+     * DF S2
+     */
     private function syncAberrusBosses(): void
     {
         $aberrus = Raid::where('slug', 'aberrus')->firstOrFail();
@@ -216,6 +309,9 @@ class SyncRaidsCommand extends Command
         ], ['raid_id', 'slug']);
     }
 
+    /**
+     * DF S1
+     */
     private function syncVotiBosses(): void
     {
         $voti = Raid::where('slug', 'vault-of-the-incarnates')->firstOrFail();

@@ -43,11 +43,11 @@ class ValidateReportJob implements ShouldQueue
             'sim.options.fight_style' => ['required', new EqualsRule('patchwerk')],
             'sim.options.max_time' => ['required', 'numeric', new EqualsRule(300)],
             'sim.options.desired_targets' => ['required', 'numeric', new EqualsRule(1)],
-            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)-fated$/'],
+            'simbot.meta.rawFormData.droptimizer.difficulty' => ['required', 'regex:/^raid-(?:lfr|normal|heroic|mythic)$/'],
             'simbot.meta.ptr' => ['required', new EqualsRule(false)],
             'simbot.meta.customApl' => ['required', new EqualsRule(false)],
             'simbot.meta.expertMode' => ['required', new EqualsRule(false)],
-            'simbot.meta.rawFormData.simcVersion' => ['required', new EqualsRule('nightly')],
+            'simbot.meta.rawFormData.simcVersion' => ['required', new EqualsRule('nightly', skip: config('app.env') !== 'production')],
             'simbot.meta.rawFormData.iterations' => ['required', new EqualsRule('smart')],
             'simbot.meta.rawFormData.droptimizer.upgradeLevel' => ['required', new UpgradeLevelRule()],
             // Buffs
@@ -58,18 +58,13 @@ class ValidateReportJob implements ShouldQueue
             'simbot.meta.battleShout' => ['required', new EqualsRule(true)],
             'simbot.meta.mysticTouch' => ['required', new EqualsRule(true)],
             'simbot.meta.chaosBrand' => ['required', new EqualsRule(true)],
-            'simbot.meta.windfury' => ['required', new EqualsRule(true)],
+            'simbot.meta.skyfury' => ['required', new EqualsRule(true)],
             'simbot.meta.markOfTheWild' => ['required', new EqualsRule(true)],
             'simbot.meta.huntersMark' => ['required', new EqualsRule(true)],
             'simbot.meta.bleeding' => ['required', new EqualsRule(true)],
             'simbot.meta.powerInfusion' => ['required', new EqualsRule(false)],
-            'simbot.meta.blueSilkenLining' => ['required', new EqualsRule(40)],
-            'simbot.meta.corruptingRageUptime' => ['required', new EqualsRule(80)],
             // Seasonal stuff
-            'simbot.meta.balefireBranchRngType' => ['required', new EqualsRule('constant')],
-            'simbot.meta.whisperingIncarnateIconRoles' => ['required', new EqualsRule('dps/heal/tank')],
-            'simbot.meta.ominousChromaticEssenceAllies' => ['required', new EqualsRule('obsidian/emerald/bronze/azure/ruby')],
-
+            //TODO
         ], [
             'sim.options.max_time' => ':attribute must be 5 minutes',
             'simbot.meta.rawFormData.droptimizer.instance.in' => ':attribute not supported',
@@ -87,7 +82,7 @@ class ValidateReportJob implements ShouldQueue
             'simbot.meta.battleShout' => 'Battle Shout must be active',
             'simbot.meta.mysticTouch' => 'Mystic Touch must be active',
             'simbot.meta.chaosBrand' => 'Chaos Brand must be active',
-            'simbot.meta.windfury' => 'Windfury must be active',
+            'simbot.meta.skyfury' => 'Skyfury must be active',
             'simbot.meta.markOfTheWild' => 'Mark of the Wild must be active',
             'simbot.meta.huntersMark' => 'Hunters Mark must be active',
             'simbot.meta.bleeding' => 'Bleeding must be active',
